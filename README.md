@@ -10,7 +10,7 @@ Train DRL agents on ROS compatible simulations for autonomous navigation in high
 ## Installation
 0. Standart ROS setup (Code has been tested with ROS-melodic on Ubuntu 18.04) with catkin_ws
 ```
-sudo apt-get update && apt-get install -y \
+sudo apt-get update && sudo apt-get install -y \
 libqt4-dev \
 libopencv-dev \
 liblua5.2-dev \
@@ -65,13 +65,13 @@ workon arena-flatland-py3
 
 Install packages inside your venv:
 ```
-   pip3 install pyyaml rospkg catkin_pkg  exception numpy tensorflow=="1.13.1"  gym   pyquaternion mpi4py  matplotlib  netifaces
+   pip3 install pyyaml rospkg catkin_pkg  exception numpy tensorflow=="1.13.1"  gym   pyquaternion mpi4py  matplotlib  netifaces scikit-build
    ```     
    
 5. Install and build additional packages from drl_forks
 ```
 cd drl_local_planner_forks/stable_baselines/ 
-pip install -e .
+pip3 install -e .
 cd $HOME/catkin_ws
 catkin_make
 ```
