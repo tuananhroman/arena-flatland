@@ -37,7 +37,7 @@ rosws update
 
 3. Install virtual environment and wrapper (as root or admin!) on your local pc (without conda activated) to be able to use python3 with ros
    ```
-    sudo pip3 install — upgrade pip
+    sudo pip3 install —-upgrade pip
     sudo pip3 install virtualenv
     sudo pip3 install virtualenvwrapper
     which virtualenv # should output /usr/local/bin/virtualenv  
