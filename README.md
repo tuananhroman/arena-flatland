@@ -8,7 +8,7 @@ Train DRL agents on ROS compatible simulations for autonomous navigation in high
 
 
 ## Installation
-0. Standart ROS setup (Code has been tested with ROS-melodic on Ubuntu 18.04) with catkin_ws
+0. Standard ROS setup (Code has been tested with ROS-melodic on Ubuntu 18.04) with catkin_ws
 ```
 sudo apt-get update && sudo apt-get install -y \
 libqt4-dev \
@@ -19,6 +19,7 @@ ros-melodic-tf2-geometry-msgs \
 ros-melodic-navigation \
 ros-melodic-rviz 
 ```
+
 1. Clone this repo into your catkin_ws 
 ````
 mkdir -p catkin_ws/src
@@ -36,24 +37,24 @@ rosws update
 ```` 
 
 3. Install virtual environment and wrapper (as root or admin!) on your local pc (without conda activated) to be able to use python3 with ros
-   ```
-    sudo pip3 install —-upgrade pip
-    sudo pip3 install virtualenv
-    sudo pip3 install virtualenvwrapper
-    which virtualenv # should output /usr/local/bin/virtualenv  
-    ```
+```
+sudo pip3 install --upgrade pip
+sudo pip3 install virtualenv
+sudo pip3 install virtualenvwrapper
+which virtualenv   # should output /usr/local/bin/virtualenv  
+```
 
       
 4. Create venv folder inside hom directory
 ```
 cd $HOME
-mkdir python_env # create a venv folder in your home directory 
+mkdir python_env   # create a venv folder in your home directory 
 ```
 
 Add this into your .bashrc/.zshrc :
 ```
-export WORKON_HOME=/home/linh/python_env  #path to your venv folder
-export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python3 #path to your python3 
+export WORKON_HOME=/home/linh/python_env   #path to your venv folder
+export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python3   #path to your python3 
 export VIRTUALENVWRAPPER_VIRTUALENV=/usr/local/bin/virtualenv
 source /usr/local/bin/virtualenvwrapper.sh
 ```
@@ -65,8 +66,8 @@ workon arena-flatland-py3
 
 Install packages inside your venv:
 ```
-   pip3 install pyyaml rospkg catkin_pkg  exception numpy tensorflow=="1.13.1"  gym   pyquaternion mpi4py  matplotlib  netifaces scikit-build
-   ```     
+pip3 install pyyaml rospkg catkin_pkg exception numpy tensorflow=="1.13.1" gym pyquaternion mpi4py matplotlib netifaces scikit-build
+```     
    
 5. Install and build additional packages from drl_forks
 ```
@@ -82,21 +83,21 @@ cd $HOME/catkin_ws
 mkdir -p data/{evaluation_data,tensorboard_log_ppo_10}/{train,test,evaluation_sets}    
 
 ```
-4. Set system-relevant variables 
-    * Modify all relevant pathes rl_bringup/config/path_config.ini
-    ```
-    path_to_venv=/home/user/python_env/arena-flatland-py3/arena_py3
-   path_to_train_data=/home/user/code/catkin_ws/data
-   path_to_eval_data_train=/home/user/code/catkin_ws/data/evaluation_data/train
-   path_to_eval_data_test=/home/user/code/catkin_ws/data/evaluation_data/test
-   path_to_eval_sets=/home/user/code/catkin_ws/data/evaluation_data/evaluation_sets
-   path_to_catkin_ws=/home/user/code/catkin_ws/
-   path_to_tensorboard_log=/home/user/code/catkin_ws/data/tensorboard_log_ppo_10
-   path_to_models=/home/user/code/catkin_ws/data/agents
-   ros_version=melodic
+7. Set system-relevant variables 
+* Modify all relevant paths in rl_bringup/config/path_config.ini
+```
+path_to_venv=/home/user/python_env/arena-flatland-py3/arena_py3
+path_to_train_data=/home/user/code/catkin_ws/data
+path_to_eval_data_train=/home/user/code/catkin_ws/data/evaluation_data/train
+path_to_eval_data_test=/home/user/code/catkin_ws/data/evaluation_data/test
+path_to_eval_sets=/home/user/code/catkin_ws/data/evaluation_data/evaluation_sets
+path_to_catkin_ws=/home/user/code/catkin_ws/
+path_to_tensorboard_log=/home/user/code/catkin_ws/data/tensorboard_log_ppo_10
+path_to_models=/home/user/code/catkin_ws/data/agents
+ros_version=melodic
 ```
     
-5. Activate venv and run python code ppo_train.py
+8. Activate venv and run python code ppo_train.py
 
 
 # Example Usage
