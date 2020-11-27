@@ -11,7 +11,7 @@ Overall workflow of arena-flatland. As a 2d simulator, flatland is utilized. For
 
 <p align="center">
   <img src='img/arena-flatland-wf.jpg' alt="teaser results" width="70%"/>
-  <p align="center"><i>Architecture of arena2d</i></p>
+  <p align="center"><i>Architecture of arena-flatland</i></p>
 </p>
 
 
