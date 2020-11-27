@@ -50,6 +50,8 @@ namespace rl_local_planner {
 		for(int i = 1; i < global_plan.size(); i++){
 			dist += metric_dist((prev.pose.position.x - global_plan[i].pose.position.x),
 							(prev.pose.position.y - global_plan[i].pose.position.y));
+			// downsamples the global path[i],which is an array of poses, sum all poses until reach lookahead distance
+			//this way path is downsamples using the lookahead distance defined in the configs
 			if(dist > look_ahead_distance_){
 				dist = 0.0;
 				waypoints_.push_back(global_plan[i]);

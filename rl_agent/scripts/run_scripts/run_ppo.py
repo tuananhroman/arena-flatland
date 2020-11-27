@@ -105,7 +105,7 @@ def run_ppo(config, state_collector, agent_name ="ppo_99_8507750", policy ="CnnP
         #Cummulative reward.
         cum_reward = 0
     while True:
-        #Determining action vor given observation
+        #Determining action for given observation
         action, _states = model.predict(obs)
 
         # Clipping actions
