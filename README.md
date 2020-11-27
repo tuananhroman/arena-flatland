@@ -6,6 +6,14 @@ Train DRL agents on ROS compatible simulations for autonomous navigation in high
 * Local planner has been trained on static and dynamic obstacles: [video](https://www.youtube.com/watch?v=nHvpO0hVnAg)
 * Combination with arena2d levels for highly randomized training and better generalization
 
+# Documentation
+Overall workflow of arena-flatland. As a 2d simulator, flatland is utilized. For detailed documentation see: . The agent files including network designs and DRL algorithms are reralized in python.
+
+<p align="center">
+  <img src='img/arena-flatland-wf.jpg' alt="teaser results" width="70%"/>
+  <p align="center"><i>Architecture of arena2d</i></p>
+</p>
+
 
 ## Installation
 0. Standard ROS setup (Code has been tested with ROS-melodic on Ubuntu 18.04) with catkin_ws
@@ -98,6 +106,7 @@ ros_version=melodic
 ```
     
 8. Activate venv and run python code ppo_train.py
+
 
 
 # Example Usage
