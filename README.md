@@ -61,10 +61,11 @@ mkdir python_env   # create a venv folder in your home directory
 
 Add this into your .bashrc/.zshrc :
 ```
-export WORKON_HOME=/home/linh/python_env   #path to your venv folder
+echo "export WORKON_HOME=/home/linh/python_env   #path to your venv folder
 export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python3   #path to your python3 
 export VIRTUALENVWRAPPER_VIRTUALENV=/usr/local/bin/virtualenv
 source /usr/local/bin/virtualenvwrapper.sh
+source ~/.zsh" >> ~/.zshrc
 ```
 Create a new venv
 ```
@@ -74,7 +75,7 @@ workon arena-flatland-py3
 
 Install packages inside your venv:
 ```
-pip3 install pyyaml rospkg catkin_pkg exception numpy tensorflow=="1.13.1" gym pyquaternion mpi4py matplotlib netifaces scikit-build
+pip3 install pyyaml rospkg catkin_pkg exception numpy=="1.18.5" tensorflow=="1.5.0" gym pyquaternion mpi4py matplotlib netifaces scikit-build
 ```     
    
 5. Install and build additional packages from drl_forks
@@ -94,7 +95,7 @@ mkdir -p data/{evaluation_data,tensorboard_log_ppo_10}/{train,test,evaluation_se
 7. Set system-relevant variables 
 * Modify all relevant paths in rl_bringup/config/path_config.ini
 ```
-path_to_venv=/home/user/python_env/arena-flatland-py3/arena_py3
+echo "path_to_venv=/home/user/python_env/arena-flatland-py3/arena_py3
 path_to_train_data=/home/user/code/catkin_ws/data
 path_to_eval_data_train=/home/user/code/catkin_ws/data/evaluation_data/train
 path_to_eval_data_test=/home/user/code/catkin_ws/data/evaluation_data/test
@@ -102,10 +103,22 @@ path_to_eval_sets=/home/user/code/catkin_ws/data/evaluation_data/evaluation_sets
 path_to_catkin_ws=/home/user/code/catkin_ws/
 path_to_tensorboard_log=/home/user/code/catkin_ws/data/tensorboard_log_ppo_10
 path_to_models=/home/user/code/catkin_ws/data/agents
-ros_version=melodic
+ros_version=melodic" >> ~/catkin_ws/src/arena-flatland/rl_bringup/config/path_config.ini
 ```
     
-8. Activate venv and run python code ppo_train.py
+8. Include source to your setup.zsh/bash for ros packages
+```
+echo "source ~/catkin_ws/devel.zsh" >> ~/catkin_ws/setup.zsh
+```
+
+9. Activate venv and run python code ppo_train.py
+
+## Note: if you are using ROS Kinetic 
+1. Follow the same steps but install the ros packages for kinteic (instead of ros-melodic-rviz, install ros-kinetc-rviz, etc.)
+2. Export Pythonpath to point to your venv because kinetic will look at its internal site packages for the opencv lib.
+```
+export PYTHONPATH="/home/linh/python_env/arena-flatland-gpu/lib/python3.6/site-packages:$PYTHONPATH"
+```
 
 
 
