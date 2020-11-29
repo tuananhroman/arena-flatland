@@ -108,10 +108,10 @@ ros_version=melodic" >> ~/catkin_ws/src/arena-flatland/rl_bringup/config/path_co
     
 8. Include source to your setup.zsh/bash for ros packages
 ```
-echo "source ~/catkin_ws/devel.zsh" >> ~/catkin_ws/setup.zsh
+echo "source ~/catkin_ws/devel/setup.zsh" >> ~/catkin_ws/setup.zsh
 ```
 
-9. Activate venv and run python code ppo_train.py
+9. Now you are ready to use arena-flatland. Remeber to Activate your venv to run the training.
 
 ## Note: if you are using ROS Kinetic 
 1. Follow the same steps but install the ros packages for kinteic (instead of ros-melodic-rviz, install ros-kinetc-rviz, etc.)
