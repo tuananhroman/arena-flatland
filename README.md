@@ -95,7 +95,7 @@ mkdir -p data/{evaluation_data,tensorboard_log_ppo_10}/{train,test,evaluation_se
 7. Set system-relevant variables 
 * Modify all relevant paths in rl_bringup/config/path_config.ini
 ```
-echo "path_to_venv=/home/user/python_env/arena-flatland-py3/arena_py3
+echo "path_to_venv=/home/user/python_env/arena-flatland-py3
 path_to_train_data=/home/user/code/catkin_ws/data
 path_to_eval_data_train=/home/user/code/catkin_ws/data/evaluation_data/train
 path_to_eval_data_test=/home/user/code/catkin_ws/data/evaluation_data/test
