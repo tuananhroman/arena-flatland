@@ -9,7 +9,12 @@ import os
 import sys
 import rospy
 import rospkg
+
 import configparser
+import random
+import numpy as np
+from multiprocessing import Process
+
 from rl_agent.env_wrapper.ros_env_cont_img import RosEnvContImg
 from rl_agent.env_wrapper.ros_env_cont_raw_data import RosEnvContRaw
 from rl_agent.env_wrapper.ros_env_disc_raw_data import RosEnvDiscRaw
@@ -19,17 +24,21 @@ from rl_agent.env_wrapper.ros_env_cont_raw_scan_prep_wp import RosEnvContRawScan
 from rl_agent.env_wrapper.ros_env_disc_raw_scan_prep_wp import RosEnvDiscRawScanPrepWp
 from rl_agent.env_wrapper.ros_env_disc_img import RosEnvDiscImg
 from rl_agent.env_utils.state_collector import StateCollector
-from stable_baselines.common.vec_env import VecNormalize, SubprocVecEnv, VecFrameStack
 from rl_agent.evaluation.Evaluation import Evaluation
-from multiprocessing import Process
-import random
 from rl_agent.common_custom_policies import *
-from stable_baselines.common.policies import *
+from rl_agent.common_custom_policies_2 import *
 
-from stable_baselines.ppo2 import PPO2
-from stable_baselines.bench import Monitor
-from stable_baselines.results_plotter import load_results, ts2xy
-import numpy as np
+#from stable_baselines.common.policies import *
+#from stable_baselines.ppo2 import PPO2
+#from stable_baselines.bench import Monitor
+#from stable_baselines.results_plotter import load_results, ts2xy
+#from stable_baselines.common.vec_env import VecNormalize, SubprocVecEnv, VecFrameStack
+
+from stable_baselines3.common.policies import *
+from stable_baselines3.ppo import PPO
+from stable_baselines3.common.monitor import Monitor
+from stable_baselines3.common.results_plotter import load_results, ts2xy
+from stable_baselines3.common.vec_env import VecNormalize, SubprocVecEnv, VecFrameStack
 
 best_mean_reward, n_callback = -np.inf, 0
 agent_name = ""
@@ -74,7 +83,7 @@ def load_train_env(num_envs, robot_radius, rew_fnc, num_stacks, stack_offset, de
             env_temp = RosEnvDiscRawScanPrepWp
         else:
             env_temp = RosEnvContRawScanPrepWp
-    elif policy == "CNN1DPolicy_multi_input":
+    elif policy == "CNN1DPolicy_multi_input" or policy == "CustomMlp":
         if disc_action_space:
             env_temp = RosEnvDiscRaw
         else:
@@ -139,15 +148,15 @@ def train_agent_ppo2(config, agent_name, total_timesteps, policy,
 
 
     if stage==0:
-        model = PPO2(eval(policy), env, gamma=gamma,
+        model = PPO(eval(policy), env, gamma=gamma,
                      n_steps=n_steps, ent_coef=ent_coef,
                      learning_rate=learning_rate, vf_coef=vf_coef, max_grad_norm=max_grad_norm,
-                     lam=lam, nminibatches=nminibatches, noptepochs=noptepochs,
-                     cliprange=cliprange, verbose=1,
+                     gae_lambda=lam, batch_size=nminibatches, n_epochs=noptepochs,
+                     clip_range=cliprange, verbose=1,
                      tensorboard_log='%s' % (path_to_tensorboard_log))
     else:
         # Pretrained model is loaded to continue training.
-        model = PPO2.load("%s/%s/%s.pkl" % (path_to_models, pretrained_model_name, pretrained_model_name), env,
+        model = PPO.load("%s/%s/%s.pkl" % (path_to_models, pretrained_model_name, pretrained_model_name), env,
                           tensorboard_log='%s'%(path_to_tensorboard_log))
 
     # Document agent
@@ -159,9 +168,9 @@ def train_agent_ppo2(config, agent_name, total_timesteps, policy,
     print("learning_rate \t\t\t %f" %learning_rate)
     print("vf_coef \t\t\t %f" %model.vf_coef)
     print("max_grad_norm \t\t\t %f" %model.max_grad_norm)
-    print("lam \t\t\t\t %f" %model.lam)
-    print("nminibatches \t\t\t %d" %model.nminibatches)
-    print("noptepochs \t\t\t %d" %model.noptepochs)
+    print("lam \t\t\t\t %f" %model.gae_lambda)
+    print("nminibatches \t\t\t %d" %model.batch_size)
+    print("noptepochs \t\t\t %d" %model.n_epochs)
     print("cliprange \t\t\t %f" %cliprange)
     print("total_timesteps \t\t %d" %total_timesteps)
     print("Policy \t\t\t\t %s" %policy)
@@ -232,7 +241,7 @@ if __name__ == '__main__':
 
         num_envs = 1
         stage = 0
-        agent_name = "ppo2_foo"
+        agent_name = "ppo2_foo_mlp"
         robot_radius = 0.5
 
         record_processes = []
@@ -251,7 +260,7 @@ if __name__ == '__main__':
                          learning_rate=0.00025,
                          cliprange=0.2,
                          total_timesteps=10000000,
-                         policy="CNN1DPolicy_multi_input",
+                         policy="CustomMlp",
                          num_envs=num_envs,
                          nminibatches=1,
                          noptepochs=1,
@@ -262,7 +271,7 @@ if __name__ == '__main__':
                          disc_action_space=False,
                          robot_radius = robot_radius,
                          stage=stage,
-                         pretrained_model_name="ppo2_foo",
+                         pretrained_model_name="ppo2_foo_mlp",
                          task_mode="ped")
 
         for p in record_processes:
