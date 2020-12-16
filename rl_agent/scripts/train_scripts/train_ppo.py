@@ -94,7 +94,7 @@ def load_train_env(num_envs, robot_radius, rew_fnc, num_stacks, stack_offset, de
         else:
             env_temp = RosEnvContImgVel
 
-    env = SubprocVecEnv([lambda k=k: Monitor(env_temp("sim%d" % (k+1), StateCollector("sim%s"%(k+1), "train") , stack_offset, num_stacks, robot_radius, rew_fnc, debug, "train", task_mode), '%s/%s/sim_%d'%(path_to_models, agent_name, k+1), allow_early_resets=True) for k in range(num_envs)])
+    env = SubprocVecEnv([lambda k=k: Monitor(env_temp("sim%d" % (k+1), StateCollector("sim%s"%(k+1), "train"), stack_offset, num_stacks, robot_radius, rew_fnc, debug, "train", task_mode), '%s/%s/sim_%d'%(path_to_models, agent_name, k+1), allow_early_resets=True) for k in range(num_envs)])
 
     # Normalizing?
     if normalize:
@@ -266,7 +266,7 @@ if __name__ == '__main__':
                          noptepochs=1,
                          debug=True,
                          rew_fnc = 19,
-                         num_stacks= 3,
+                         num_stacks= 1,
                          stack_offset=5,
                          disc_action_space=False,
                          robot_radius = robot_radius,
